@@ -20,7 +20,8 @@ app.use(express.json());
 app.use(cors());
 app.use(clerkMiddleware());
 
-const publicDir = path.join(process.cwd(), "public");
+const publicDir = path.join(process.cwd(), "../client/dist");
+
 if (fs.existsSync(publicDir)) {
   app.use(express.static(publicDir));
 
@@ -39,6 +40,6 @@ if (fs.existsSync(publicDir)) {
   });
 }
 
-app.listen(env.PORT, () => {
-  console.log("App listening on port ", env.PORT);
+app.listen(process.env.PORT || env.PORT, () => {
+  console.log("App listening on port", process.env.PORT || env.PORT);
 });
