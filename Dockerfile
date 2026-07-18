@@ -84,4 +84,4 @@ COPY --from=frontend-builder /app/client/dist ../client/dist
 EXPOSE 3000
 
 # Start the backend server
-CMD ["node", "dist/index.js"]
+CMD ["node", "dist/app.js"]
