@@ -47,6 +47,9 @@ export const products = pgTable("products", {
   createdAt: timestamp("created_at", { withTimezone: true })
     .defaultNow()
     .notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
 });
 
 export const checkoutSessions = pgTable("checkout_sessions", {
@@ -91,26 +94,21 @@ export const orderItems = pgTable("order_items", {
   quantity: integer("quantity").notNull(),
   unitPriceCents: integer("unit_price_cents").notNull(),
 });
-
 // cascade = “delete children when parent is deleted”; restrict = “don’t delete the parent if any child still points at it.”
 
-// a user can have many orders over time.
 export const usersRelations = relations(users, ({ many }) => ({
   orders: many(orders),
 }));
 
-// the same product can show up on many order lines
 export const productsRelations = relations(products, ({ many }) => ({
   orderItems: many(orderItems),
 }));
 
-// each order belongs to exactly one user; each order can have many line items.
 export const ordersRelations = relations(orders, ({ one, many }) => ({
   user: one(users, { fields: [orders.userId], references: [users.id] }),
   items: many(orderItems),
 }));
 
-// each line item is for exactly one order and one product
 export const orderItemsRelations = relations(orderItems, ({ one }) => ({
   order: one(orders, { fields: [orderItems.orderId], references: [orders.id] }),
   product: one(products, {
