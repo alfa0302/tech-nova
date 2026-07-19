@@ -10,6 +10,11 @@ import fs from "fs";
 const env = getEnv();
 const app = express();
 
+// health endpoint for github actions cron job
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "OK" });
+});
+
 // defined before json parsing as raw data is needed
 const rawJSON = express.raw({ type: "application/json", limit: "1mb" });
 app.post("/webhook/clerk", rawJSON, (req, res) => {
