@@ -1,0 +1,18 @@
+name: Keep Render Awake
+
+on:
+  schedule:
+    # Runs every 10 minutes
+    - cron: "*/14 * * * *"
+
+  # Allows you to run it manually
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ping Render App
+        run: |
+          curl -L https://your-app.onrender.com/health
