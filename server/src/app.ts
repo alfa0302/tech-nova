@@ -11,7 +11,7 @@ const env = getEnv();
 const app = express();
 
 // health endpoint for github actions cron job
-app.get("/health", (req, res) => {
+app.get("/health", (_req, res) => {
   res.status(200).json({ status: "OK" });
 });
 
