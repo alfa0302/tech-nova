@@ -6,6 +6,9 @@ import { clerkWebhookHandler } from "./webhooks/clerk";
 import { getEnv } from "./lib/env";
 import path from "path";
 import fs from "fs";
+// routers
+import productRouter from "./routes/productRouter";
+import userRouter from "./routes/userRouter";
 
 const env = getEnv();
 const app = express();
@@ -25,22 +28,21 @@ app.use(express.json());
 app.use(cors());
 app.use(clerkMiddleware());
 
-const publicDir = path.join(process.cwd(), "../client/dist");
+app.use("/api/products", productRouter);
+app.use("/api/users", productRouter);
 
+const publicDir = path.join(process.cwd(), "../client/dist");
 if (fs.existsSync(publicDir)) {
   app.use(express.static(publicDir));
-
   app.get("/{*any}", (req, res, next) => {
     if (req.method !== "GET" && req.method !== "HEAD") {
       next();
       return;
     }
-
     if (req.path.startsWith("/api") || req.path.startsWith("/webhooks")) {
       next();
       return;
     }
-
     res.sendFile(path.join(publicDir, "index.html"), (err) => next(err));
   });
 }
