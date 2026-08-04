@@ -9,6 +9,7 @@ import fs from "fs";
 // routers
 import productRouter from "./routes/productRouter";
 import userRouter from "./routes/userRouter";
+import checkoutRouter from "./routes/checkoutRouter";
 
 const env = getEnv();
 const app = express();
@@ -29,7 +30,8 @@ app.use(cors());
 app.use(clerkMiddleware());
 
 app.use("/api/products", productRouter);
-app.use("/api/users", productRouter);
+app.use("/api/users", userRouter);
+app.use("/api/checkout", checkoutRouter);
 
 const publicDir = path.join(process.cwd(), "../client/dist");
 if (fs.existsSync(publicDir)) {
