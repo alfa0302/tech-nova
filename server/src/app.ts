@@ -3,6 +3,7 @@ import cors from "cors";
 import "dotenv/config";
 import { clerkMiddleware } from "@clerk/express";
 import { clerkWebhookHandler } from "./webhooks/clerk";
+import { polarWebhookHandler } from "./webhooks/polar";
 import { getEnv } from "./lib/env";
 import path from "path";
 import fs from "fs";
@@ -14,15 +15,13 @@ import checkoutRouter from "./routes/checkoutRouter";
 const env = getEnv();
 const app = express();
 
-// health endpoint for github actions cron job
-app.get("/health", (_req, res) => {
-  res.status(200).json({ status: "OK" });
-});
-
 // defined before json parsing as raw data is needed
 const rawJSON = express.raw({ type: "application/json", limit: "1mb" });
 app.post("/webhook/clerk", rawJSON, (req, res) => {
   void clerkWebhookHandler(req, res);
+});
+app.post("/webhook/polar", rawJSON, (req, res) => {
+  void polarWebhookHandler(req, res);
 });
 
 app.use(express.json());
