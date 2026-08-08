@@ -12,6 +12,7 @@ import * as Sentry from "@sentry/node";
 import productRouter from "./routes/productRouter";
 import userRouter from "./routes/userRouter";
 import checkoutRouter from "./routes/checkoutRouter";
+import adminRouter from "./routes/adminRouter";
 import { sentryClerkUserMiddleware } from "./middleware/sentryClerkUser";
 
 const env = getEnv();
@@ -34,6 +35,7 @@ app.use(sentryClerkUserMiddleware);
 app.use("/api/products", productRouter);
 app.use("/api/users", userRouter);
 app.use("/api/checkout", checkoutRouter);
+app.use("/api/admin", adminRouter);
 
 const publicDir = path.join(process.cwd(), "../client/dist");
 if (fs.existsSync(publicDir)) {

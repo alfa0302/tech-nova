@@ -14,6 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "@clerk/express": "^2.1.39",
+    "@imagekit/nodejs": "^7.10.0",
     "@polar-sh/sdk": "^0.49.0",
     "@sentry/node": "^10.69.0",
     "cors": "^2.8.6",
