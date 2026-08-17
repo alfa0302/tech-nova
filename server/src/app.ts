@@ -33,10 +33,11 @@ app.use(clerkMiddleware());
 app.use(sentryClerkUserMiddleware);
 
 app.use("/api/products", productRouter);
-app.use("/api/users", userRouter);
+app.use("/api/user", userRouter);
 app.use("/api/checkout", checkoutRouter);
 app.use("/api/admin", adminRouter);
 
+// fallback
 const publicDir = path.join(process.cwd(), "../client/dist");
 if (fs.existsSync(publicDir)) {
   app.use(express.static(publicDir));

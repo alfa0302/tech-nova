@@ -29,10 +29,7 @@ const productData = z.object({
   active: z.boolean().default(true),
 });
 
-// // uses productData but all fields are optional
-// const productPatch = productData.partial();
-
-function buildProductUpdateData(body: z.infer<typeof productData>) {
+function buildProductUpdateData(body: Partial<typeof products.$inferInsert>) {
   const data: Partial<typeof products.$inferInsert> = {};
   if (body.slug !== undefined) data.slug = body.slug;
   if (body.name !== undefined) data.name = body.name;
@@ -41,7 +38,11 @@ function buildProductUpdateData(body: z.infer<typeof productData>) {
   if (body.priceCents !== undefined) data.priceCents = body.priceCents;
   if (body.currency !== undefined) data.currency = body.currency;
   if (body.imageUrl !== undefined) {
-    data.imageUrl = body.imageUrl === "" ? null : data.imageUrl;
+    data.imageUrl = body.imageUrl === "" ? null : body.imageUrl;
+  }
+  if (body.imageKitFileId !== undefined) {
+    data.imageKitFileId =
+      body.imageKitFileId === "" ? null : body.imageKitFileId;
   }
   if (body.active !== undefined) data.active = body.active;
   return data;
@@ -131,24 +132,25 @@ export async function listAdminProducts(
   }
 }
 
+const productPatch = productData.partial();
 export async function updateAdminProduct(
   req: Request,
   res: Response,
   next: NextFunction,
 ) {
-  const parsed = productData.safeParse(req.body);
+  const parsed = productPatch.safeParse(req.body);
   if (!parsed.success) {
     res
       .status(400)
       .json({ error: "Invalid body", details: parsed.error.flatten() });
     return;
   }
-  const data = buildProductUpdateData(parsed.data);
-  if (Object.keys(data).length === 0) {
+  if (Object.keys(parsed.data).length === 0) {
     res.status(400).json({ error: "No fields to update" });
     return;
   }
 
+  const data = buildProductUpdateData(parsed?.data);
   const [row] = await db
     .update(products)
     .set(data)

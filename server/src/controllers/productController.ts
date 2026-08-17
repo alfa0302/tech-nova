@@ -36,6 +36,7 @@ export async function getCategories(
       .selectDistinct({ category: products.category })
       .from(products)
       .where(eq(products.active, true));
+
     const categories = rows
       .map((r) => r.category)
       .sort((a, b) => a.localeCompare(b));
