@@ -26,17 +26,17 @@ export default function Navbar() {
   );
 
   return (
-    <header className="sticky top-0 z-50 border-b border-base-300 bg-base-100/95 shadow-sm backdrop-blur-md flex justify-between items-center px-10">
+    <header className="fixed left-0 right-0 top-0 z-50 flex items-center justify-between px-10 bg-transparent backdrop-blur-xl border-b border-black/10">
       <Link to="/" className="flex items-center justify-center translate-y-1">
         <img src="logo.svg" alt="Nova logo" className="h-15" />
       </Link>
       <nav>
         <div className="flex gap-8 items-center">
-          <Link className="nav-item">
+          <Link to="/shop" className="nav-item">
             <ShoppingBagIcon /> Shop
           </Link>
           <Show when={"signed-in"}>
-            <Link className="nav-item">
+            <Link to="/orders" className="nav-item">
               <PackageIcon /> Orders
             </Link>
             {role === "admin" && (
@@ -44,7 +44,7 @@ export default function Navbar() {
                 <SettingsIcon /> Admin
               </Link>
             )}
-            <Link className="nav-item relative">
+            <Link to="/cart" className="nav-item relative">
               <ShoppingCartIcon /> Cart{" "}
               {cartCount > 0 ? (
                 <span className="px-2 py-1 font-sans text-xs bg-(--color-blue) text-white rounded-full absolute -top-4.5 -right-5">
@@ -59,7 +59,7 @@ export default function Navbar() {
                 }}
               />
               {role === "support" || role === "admin" ? (
-                <span className="btn-primary">{role}</span>
+                <span className="btn-secondary">{role}</span>
               ) : null}
             </div>
           </Show>
@@ -68,7 +68,7 @@ export default function Navbar() {
             <SignInButton mode="modal">
               <button
                 type="button"
-                className="btn btn-primary btn-sm gap-1.5 px-3 shadow-md"
+                className="btn-secondary gap-1.5 px-3 shadow-md"
               >
                 <LogInIcon className="size-4 drop-shadow-sm" aria-hidden />
                 Sign in
