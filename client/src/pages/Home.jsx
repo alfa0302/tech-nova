@@ -18,11 +18,9 @@ export default function Home() {
     products,
     categories,
     categoryChipsLoading,
-    categoryFilter,
     error,
     loadingCategories,
     loadingList,
-    setCategory,
   } = useHomeCatalog();
   const featured = products?.slice(0, 4) || [];
   return (
@@ -32,7 +30,7 @@ export default function Home() {
         categories={categories}
         loadingCategories={loadingCategories}
       />
-      <FeaturedProducts products={featured} />
+      <FeaturedProducts products={featured} loadingList={loadingList} />
       <Benefits />
       <Explore />
     </main>

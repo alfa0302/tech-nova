@@ -4,7 +4,10 @@ import { persist } from "zustand/middleware";
 export const useCart = create(
   persist(
     (set, get) => ({
-      products: [],
+      products: [
+        { productId: "1af284b2-7d70-48f7-b8ca-0b3c6ca18a51", quantity: 2 },
+        { productId: "fc94797f-7928-46b7-9b3f-1c1c41aa5c32", quantity: 1 },
+      ],
       addProduct(productId, qty = 1) {
         const items = [...get().products];
         const i = items.findIndex((item) => item.productId === productId);
@@ -31,10 +34,11 @@ export const useCart = create(
           });
           return;
         }
-        const products = get().products.map((item) =>
-          item.productId === productId ? { ...item, quantity } : item,
-        );
-        set({ products });
+        set({
+          products: get().products.map((item) =>
+            item.productId === productId ? { ...item, quantity } : item,
+          ),
+        });
       },
       clearCart() {
         set({ products: [] });

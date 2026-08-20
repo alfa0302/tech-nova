@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import Shop from "./pages/Shop";
 import Orders from "./pages/Orders";
 import Cart from "./pages/Cart";
+import ProductDetails from "./pages/ProductDetails";
 
 export default function App() {
   const { isLoaded, isSignedIn } = useAuth();
@@ -19,6 +20,7 @@ export default function App() {
         <Route path="/shop" element={<Shop />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/product/:slug" element={<ProductDetails />} />
       </Routes>
     </MainLayout>
   );

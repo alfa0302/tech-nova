@@ -1,4 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
+import { Link } from "react-router";
 
 const categoryImages = {
   Audio:
@@ -44,24 +45,28 @@ export default function Categories({ categories, loadingCategories }) {
           <h2 className="section-heading">Find your next favorite.</h2>
         </div>
 
-        <a href="/shop" className="section-nav-button">
+        <Link to="/shop" className="section-nav-button">
           View all
           <ArrowUpRight size={17} />
-        </a>
+        </Link>
       </div>
 
       <div className="flex flex-wrap gap-2 justify-start">
         {categories.map((category, index) => (
-          <a href="/shop" key={`${category}-${index}`} className="btn-label">
+          <Link
+            to={`/shop?category=${category}`}
+            key={`${category}-${index}`}
+            className="btn-label"
+          >
             {category}
-          </a>
+          </Link>
         ))}
       </div>
 
       <div className="mt-6 grid h-130 grid-cols-2 gap-3">
         {featuredCategories[0] && (
-          <a
-            href="/shop"
+          <Link
+            to="/shop"
             className="group relative overflow-hidden rounded-2xl bg-black"
           >
             <img
@@ -93,7 +98,7 @@ export default function Categories({ categories, loadingCategories }) {
                 />
               </span>
             </div>
-          </a>
+          </Link>
         )}
 
         <div className="grid grid-rows-2 gap-3">

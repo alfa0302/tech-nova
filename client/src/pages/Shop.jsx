@@ -7,95 +7,23 @@ import {
   SlidersHorizontal,
 } from "lucide-react";
 import { useState } from "react";
-
-const products = [
-  {
-    id: 1,
-    name: "AirPods Pro",
-    category: "Audio",
-    price: 249,
-    image:
-      "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=1000&q=85",
-  },
-  {
-    id: 2,
-    name: "Apple Watch",
-    category: "Wearables",
-    price: 399,
-    image:
-      "https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=1000&q=85",
-  },
-  {
-    id: 3,
-    name: "Portable Speaker",
-    category: "Audio",
-    price: 129,
-    image:
-      "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=1000&q=85",
-  },
-  {
-    id: 4,
-    name: "Smart Home Hub",
-    category: "Smart Home",
-    price: 149,
-    image:
-      "https://images.unsplash.com/photo-1558008258-3256797b43f3?auto=format&fit=crop&w=1000&q=85",
-  },
-  {
-    id: 5,
-    name: "Wireless Headphones",
-    category: "Audio",
-    price: 299,
-    image:
-      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1000&q=85",
-  },
-  {
-    id: 6,
-    name: "Smartphone",
-    category: "Mobile",
-    price: 799,
-    image:
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1000&q=85",
-  },
-  {
-    id: 7,
-    name: "Fitness Watch",
-    category: "Wearables",
-    price: 229,
-    image:
-      "https://images.unsplash.com/photo-1544117519-31a4b719223d?auto=format&fit=crop&w=1000&q=85",
-  },
-  {
-    id: 8,
-    name: "Wireless Charger",
-    category: "Accessories",
-    price: 69,
-    image:
-      "https://images.unsplash.com/photo-1586953208448-b95a79798f07?auto=format&fit=crop&w=1000&q=85",
-  },
-];
-
-const categories = [
-  "All",
-  "Audio",
-  "Wearables",
-  "Smart Home",
-  "Mobile",
-  "Accessories",
-];
+import { useHomeCatalog } from "../hooks/useHomeCatalog";
+import { centsToAED } from "../utils/helper";
 
 export default function Shop() {
-  const [activeCategory, setActiveCategory] = useState("All");
-
-  const filteredProducts =
-    activeCategory === "All"
-      ? products
-      : products.filter((product) => product.category === activeCategory);
-
+  const {
+    products,
+    categories,
+    categoryChipsLoading,
+    categoryFilter,
+    error,
+    loadingCategories,
+    loadingList,
+    setCategory,
+  } = useHomeCatalog();
   return (
     <main className="min-h-screen bg-[#f5f5f2] text-[#171717]">
-      {/* HEADER */}
-      <section className="mx-auto max-w-[1500px] px-4 pb-12 pt-10 sm:px-6 lg:px-8">
+      <section className="section-padding">
         <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
           <div>
             <p className="mb-3 text-xs font-medium uppercase tracking-[0.2em] text-black/40">
@@ -125,16 +53,26 @@ export default function Shop() {
         </div>
       </section>
 
-      {/* CATEGORY FILTER */}
       <section className="border-y border-black/10 bg-white">
         <div className="mx-auto flex max-w-[1500px] items-center justify-between gap-4 overflow-x-auto px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex gap-2">
+            <button
+              key="All categories"
+              onClick={() => setCategory("")}
+              className={`whitespace-nowrap rounded-full px-5 py-2.5 text-sm transition ${
+                categoryFilter === ""
+                  ? "bg-black text-white"
+                  : "bg-[#f5f5f2] text-black/60 hover:bg-black/10"
+              }`}
+            >
+              All
+            </button>
             {categories.map((category) => (
               <button
                 key={category}
-                onClick={() => setActiveCategory(category)}
+                onClick={() => setCategory(category)}
                 className={`whitespace-nowrap rounded-full px-5 py-2.5 text-sm transition ${
-                  activeCategory === category
+                  categoryFilter === category
                     ? "bg-black text-white"
                     : "bg-[#f5f5f2] text-black/60 hover:bg-black/10"
                 }`}
@@ -151,12 +89,9 @@ export default function Shop() {
         </div>
       </section>
 
-      {/* PRODUCT GRID */}
       <section className="mx-auto max-w-[1500px] px-4 py-12 sm:px-6 lg:px-8">
         <div className="mb-7 flex items-center justify-between">
-          <p className="text-sm text-black/50">
-            {filteredProducts.length} products
-          </p>
+          <p className="text-sm text-black/50">{products.length} products</p>
 
           <button className="flex items-center gap-2 text-sm text-black/60">
             <ArrowUpDown size={16} />
@@ -166,7 +101,7 @@ export default function Shop() {
         </div>
 
         <div className="grid grid-cols-2 gap-x-3 gap-y-10 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-5">
-          {filteredProducts.map((product) => (
+          {products.map((product) => (
             <article key={product.id} className="group">
               <div className="relative overflow-hidden rounded-2xl bg-white">
                 <button className="absolute right-3 top-3 z-10 grid size-9 place-items-center rounded-full bg-white/80 backdrop-blur-md transition hover:bg-white">
@@ -196,7 +131,9 @@ export default function Shop() {
                   </h2>
                 </div>
 
-                <p className="text-sm font-medium">${product.price}</p>
+                <p className="text-sm font-medium">
+                  {centsToAED(product.priceCents)}
+                </p>
               </div>
             </article>
           ))}

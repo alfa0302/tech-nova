@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router";
 import { useCart } from "../../store/cart";
+import Logo from "./Logo";
 
 export default function Navbar() {
   const { getToken, isSignedIn } = useAuth();
@@ -21,14 +22,13 @@ export default function Navbar() {
   });
 
   const role = data?.user?.role;
-  const cartCount = useCart((s) =>
-    s.products.reduce((count, prod) => prod.quantity + count, 0),
-  );
+  const { products } = useCart();
+  const cartCount = products?.length;
 
   return (
     <header className="fixed left-0 right-0 top-0 z-50 flex items-center justify-between px-10 bg-transparent backdrop-blur-xl border-b border-black/10">
       <Link to="/" className="flex items-center justify-center translate-y-1">
-        <img src="logo.svg" alt="Nova logo" className="h-15" />
+        <Logo fill="black" logoClass="h-15" />
       </Link>
       <nav>
         <div className="flex gap-8 items-center">
