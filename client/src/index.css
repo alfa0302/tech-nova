@@ -1,6 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import "tailwindcss";
 @plugin "daisyui";
 
 :root {
   data-theme: light;
+  --color-black: #1E2022;
+  --color-blue: #3c54b6;
+  --color-gray: rgb(157, 156, 156);
+  --color-bg: #eaeaea;
+  --font-heading: "Inter", sans-serif
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  /* background-color: var(--color-bg); */
+  font-family: 'Poppins', sans-serif;
+}
+
+.btn-white {
+  @apply flex items-center gap-2 rounded-full bg-white px-6 py-3.5 text-[13px] uppercase font-semibold text-black transition hover:bg-white/90
+}
+
+.btn-black {
+  @apply flex items-center gap-2 rounded-full bg-black text-white px-6 py-3.5 transition hover:bg-black/90 text-[13px] uppercase font-semibold
+}
+
+.btn-white-border {
+  @apply flex items-center gap-3 rounded-full px-8 py-3.5 text-sm font-medium text-white border border-white uppercase
+}
+
+.btn-label {
+  @apply rounded-full bg-black px-4 py-1.5 text-xs uppercase tracking-wide text-white transition hover:bg-black/90 hover:text-white w-fit
+}
+
+.content {
+  @apply max-w-7xl px-4 py-8 md:px-6 md:py-10
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+.nav-item {
+  @apply flex items-center gap-1 text-sm uppercase font-medium
+}
+
+.nav-item svg {
+  @apply size-4.5
+}
+
+.section-padding {
+  @apply px-4 py-24 sm:px-6 lg:px-8 max-w-375 mx-auto
+}
+
+.section-label {
+  @apply mb-2 text-xs font-medium uppercase tracking-[0.2em]
+}
+
+.section-heading {
+  @apply text-3xl font-semibold tracking-[-0.05em] sm:text-4xl
+}
+
+.section-header {
+  @apply mb-10 flex items-end justify-between
+}
+
+.section-nav-button {
+  @apply hidden items-center gap-2 text-sm font-medium md:flex border rounded-full px-8 py-2
 }

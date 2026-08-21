@@ -9,7 +9,7 @@ router.get("/", async (req, res, next) => {
     if (!isAuthenticated || !userId) {
       return res.status(401).json({ error: "Unauthorized" });
     }
-    const user = getLocalUser(userId);
+    const user = await getLocalUser(userId);
     return res.json({ user });
   } catch (error) {
     next(error);

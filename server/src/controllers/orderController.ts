@@ -51,6 +51,7 @@ export async function listOrders(
           name: products.name,
           slug: products.slug,
           imageUrl: products.imageUrl,
+          priceCents: products.priceCents,
         })
         .from(orderItems)
         .innerJoin(products, eq(products.id, orderItems.productId))
@@ -64,6 +65,7 @@ export async function listOrders(
           slug: row.slug,
           imageUrl: row.imageUrl,
           quantity: row.quantity,
+          priceCents: row.priceCents,
         });
         previewByOrder.set(row.orderId, list);
       }
