@@ -13,6 +13,7 @@ import productRouter from "./routes/productRouter";
 import userRouter from "./routes/userRouter";
 import checkoutRouter from "./routes/checkoutRouter";
 import adminRouter from "./routes/adminRouter";
+import orderRouter from "./routes/orderRouter";
 import { sentryClerkUserMiddleware } from "./middleware/sentryClerkUser";
 
 const env = getEnv();
@@ -36,6 +37,7 @@ app.use("/api/products", productRouter);
 app.use("/api/user", userRouter);
 app.use("/api/checkout", checkoutRouter);
 app.use("/api/admin", adminRouter);
+app.use("/api/order", orderRouter);
 
 // fallback
 const publicDir = path.join(process.cwd(), "../client/dist");
